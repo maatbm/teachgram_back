@@ -44,7 +44,7 @@ public class UserModel {
     @NonNull
     private String password;
 
-    @Column(name = "profile_picture_url", nullable = false)
+    @Column(name = "profile_picture", nullable = false)
     @NonNull
     private String profilePictureUrl;
 
