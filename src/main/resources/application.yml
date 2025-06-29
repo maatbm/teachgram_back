@@ -1,6 +1,6 @@
 spring:
   application:
-    name: modulo6_desafio
+    name: teachgram_back
 
   datasource:
     url: ${DB_URL}
