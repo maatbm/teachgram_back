@@ -7,8 +7,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.SoftDelete;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "users")
 @SoftDelete
