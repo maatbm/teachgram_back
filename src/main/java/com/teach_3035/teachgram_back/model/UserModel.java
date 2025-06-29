@@ -36,7 +36,7 @@ public class UserModel {
     @NonNull
     private String description;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "phone_number", nullable = false, unique = true)
     @NonNull
     private String phoneNumber;
 
@@ -48,9 +48,4 @@ public class UserModel {
     @NonNull
     private String profilePictureUrl;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 }
