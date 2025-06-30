@@ -2,6 +2,7 @@ package com.teach_3035.teachgram_back.service;
 
 import com.teach_3035.teachgram_back.dto.req.RegisterUserReqDTO;
 import com.teach_3035.teachgram_back.dto.res.RegisterUserResDTO;
+import com.teach_3035.teachgram_back.exception.custom.UserAlreadyExistsException;
 import com.teach_3035.teachgram_back.model.UserModel;
 import com.teach_3035.teachgram_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,11 @@ public class UserService {
         Optional<UserModel> user = userRepository.findByEmailOrUsernameOrPhoneNumber(request.email(), request.username(), request.phoneNumber());
         if (user.isPresent()) {
             if(user.get().getEmail().equals(request.email()))
-                throw new IllegalArgumentException("Email already exists");
+                throw new UserAlreadyExistsException("Email already exists");
             if(user.get().getUsername().equals(request.username()))
-                throw new IllegalArgumentException("Username already exists");
+                throw new UserAlreadyExistsException("Username already exists");
             if(user.get().getPhoneNumber().equals(request.phoneNumber()))
-                throw new IllegalArgumentException("Phone number already exists");
+                throw new UserAlreadyExistsException("Phone number already exists");
         }
         UserModel newUser = new UserModel(
                 request.name(),
