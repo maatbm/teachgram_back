@@ -6,6 +6,7 @@ import com.teach_3035.teachgram_back.exception.custom.UserAlreadyExistsException
 import com.teach_3035.teachgram_back.model.UserModel;
 import com.teach_3035.teachgram_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,6 +15,8 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public RegisterUserResDTO registerUser(RegisterUserReqDTO request) {
         Optional<UserModel> user = userRepository.findByEmailOrUsernameOrPhoneNumber(request.email(), request.username(), request.phoneNumber());
@@ -25,13 +28,14 @@ public class UserService {
             if(user.get().getPhoneNumber().equals(request.phoneNumber()))
                 throw new UserAlreadyExistsException("Phone number already exists");
         }
+        String encryptdedPassword = passwordEncoder.encode(request.password());
         UserModel newUser = new UserModel(
                 request.name(),
                 request.email(),
                 request.username(),
                 request.description(),
                 request.phoneNumber(),
-                request.password(),
+                encryptdedPassword,
                 request.profilePictureUrl()
         );
         userRepository.save(newUser);
