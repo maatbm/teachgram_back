@@ -10,7 +10,7 @@ public record RegisterUserReqDTO(
         String name,
 
         @NotBlank(message = "Email cannot be blank")
-        @Size(min = 5, max = 150, message = "Email must be between 5 and 150 characters")
+        @Size(min = 5, max = 70, message = "Email must be between 5 and 70 characters")
         @Email(message = "Invalid email format")
         String email,
 
