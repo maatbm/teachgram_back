@@ -1,11 +1,15 @@
 package com.teach_3035.teachgram_back.service;
 
+import com.teach_3035.teachgram_back.dto.req.LoginReqDTO;
 import com.teach_3035.teachgram_back.dto.req.RegisterUserReqDTO;
+import com.teach_3035.teachgram_back.dto.res.LoginResDTO;
 import com.teach_3035.teachgram_back.dto.res.RegisterUserResDTO;
 import com.teach_3035.teachgram_back.exception.custom.UserAlreadyExistsException;
 import com.teach_3035.teachgram_back.model.UserModel;
 import com.teach_3035.teachgram_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +21,17 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public RegisterUserResDTO registerUser(RegisterUserReqDTO request) {
         Optional<UserModel> user = userRepository.findByEmailOrUsernameOrPhoneNumber(request.email(), request.username(), request.phoneNumber());
         if (user.isPresent()) {
-            if(user.get().getEmail().equals(request.email()))
+            if (user.get().getEmail().equals(request.email()))
                 throw new UserAlreadyExistsException("Email already exists");
-            if(user.get().getUsername().equals(request.username()))
+            if (user.get().getUsername().equals(request.username()))
                 throw new UserAlreadyExistsException("Username already exists");
-            if(user.get().getPhoneNumber().equals(request.phoneNumber()))
+            if (user.get().getPhoneNumber().equals(request.phoneNumber()))
                 throw new UserAlreadyExistsException("Phone number already exists");
         }
         String encryptdedPassword = passwordEncoder.encode(request.password());
@@ -40,5 +46,11 @@ public class UserService {
         );
         userRepository.save(newUser);
         return new RegisterUserResDTO(newUser.getId(), newUser.getEmail());
+    }
+
+    public LoginResDTO loginUser(LoginReqDTO request) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.email(), request.password());
+        authenticationManager.authenticate(token);
+        return null;
     }
 }
