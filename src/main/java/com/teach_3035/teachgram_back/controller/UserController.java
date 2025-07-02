@@ -1,6 +1,8 @@
 package com.teach_3035.teachgram_back.controller;
 
+import com.teach_3035.teachgram_back.dto.req.LoginReqDTO;
 import com.teach_3035.teachgram_back.dto.req.RegisterUserReqDTO;
+import com.teach_3035.teachgram_back.dto.res.LoginResDTO;
 import com.teach_3035.teachgram_back.dto.res.RegisterUserResDTO;
 import com.teach_3035.teachgram_back.service.UserService;
 import jakarta.validation.Valid;
@@ -19,5 +21,10 @@ public class UserController {
     @PostMapping("/register")
     public RegisterUserResDTO registerUser(@Valid @RequestBody RegisterUserReqDTO request) {
         return userService.registerUser(request);
+    }
+
+    @PostMapping("/login")
+    public LoginResDTO loginUser (@Valid @RequestBody LoginReqDTO request) {
+        return userService.loginUser(request);
     }
 }
