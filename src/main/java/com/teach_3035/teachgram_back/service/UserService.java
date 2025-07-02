@@ -23,6 +23,8 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private TokenService tokenService;
 
     public RegisterUserResDTO registerUser(RegisterUserReqDTO request) {
         Optional<UserModel> user = userRepository.findByEmailOrUsernameOrPhoneNumber(request.email(), request.username(), request.phoneNumber());
@@ -51,6 +53,6 @@ public class UserService {
     public LoginResDTO loginUser(LoginReqDTO request) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.email(), request.password());
         authenticationManager.authenticate(token);
-        return null;
+        return tokenService.generateToken(request.email());
     }
 }
