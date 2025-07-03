@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR NOT NULL UNIQUE,
     username VARCHAR NOT NULL UNIQUE,
     description TEXT NOT NULL,
-    phone_number VARCHAR NOT NULL UNIQUE,
+    phone VARCHAR NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
     profile_picture VARCHAR NOT NULL,
 
@@ -16,8 +16,3 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 
 );
-
-CREATE TRIGGER updated_at_trigger
-    BEFORE UPDATE ON users
-    FOR EACH ROW
-    EXECUTE PROCEDURE updated_at_trigger_function();
