@@ -56,6 +56,9 @@ public class UserModel implements UserDetails {
     @NonNull
     private String profilePictureUrl;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade ={CascadeType.MERGE, CascadeType.PERSIST})
+    private final List<PostModel> posts = new ArrayList<>();
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
