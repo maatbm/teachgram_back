@@ -3,7 +3,7 @@ package com.teach_3035.teachgram_back.service;
 import com.teach_3035.teachgram_back.dto.req.LoginReqDTO;
 import com.teach_3035.teachgram_back.dto.req.RegisterUserReqDTO;
 import com.teach_3035.teachgram_back.dto.res.LoginResDTO;
-import com.teach_3035.teachgram_back.dto.res.RegisterUserResDTO;
+import com.teach_3035.teachgram_back.dto.res.UserResDTO;
 import com.teach_3035.teachgram_back.exception.custom.UserAlreadyExistsException;
 import com.teach_3035.teachgram_back.model.UserModel;
 import com.teach_3035.teachgram_back.repository.UserRepository;
@@ -26,7 +26,7 @@ public class UserService {
     @Autowired
     private TokenService tokenService;
 
-    public RegisterUserResDTO registerUser(RegisterUserReqDTO request) {
+    public UserResDTO registerUser(RegisterUserReqDTO request) {
         Optional<UserModel> user = userRepository.findByEmailOrUsernameOrPhoneNumber(request.email(), request.username(), request.phoneNumber());
         if (user.isPresent()) {
             if (user.get().getEmail().equals(request.email()))
@@ -47,7 +47,14 @@ public class UserService {
                 request.profilePictureUrl()
         );
         userRepository.save(newUser);
-        return new RegisterUserResDTO(newUser.getId(), newUser.getEmail());
+        return new UserResDTO(
+                newUser.getId(),
+                newUser.getName(),
+                newUser.getEmail(),
+                newUser.getUsername(),
+                newUser.getDescription(),
+                newUser.getPhoneNumber()
+        );
     }
 
     public LoginResDTO loginUser(LoginReqDTO request) {
