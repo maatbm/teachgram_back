@@ -1,10 +1,7 @@
 package com.teach_3035.teachgram_back.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SoftDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,11 +18,13 @@ import java.util.List;
 @Table(name = "users")
 @SoftDelete
 @Getter
+@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(nullable = false)
@@ -61,10 +60,12 @@ public class UserModel implements UserDetails {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
+    @Setter(AccessLevel.NONE)
     private LocalDateTime updatedAt;
 
     @Override
