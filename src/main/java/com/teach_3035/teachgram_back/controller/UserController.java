@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public RegisterUserResDTO registerUser(@Valid @RequestBody RegisterUserReqDTO request) {
         return userService.registerUser(request);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public LoginResDTO loginUser (@Valid @RequestBody LoginReqDTO request) {
         return userService.loginUser(request);
     }
