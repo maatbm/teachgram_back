@@ -2,6 +2,7 @@ package com.teach_3035.teachgram_back.controller;
 
 import com.teach_3035.teachgram_back.dto.req.LoginReqDTO;
 import com.teach_3035.teachgram_back.dto.req.RegisterUserReqDTO;
+import com.teach_3035.teachgram_back.dto.req.UpdateUserReqDTO;
 import com.teach_3035.teachgram_back.dto.res.LoginResDTO;
 import com.teach_3035.teachgram_back.dto.res.UserResDTO;
 import com.teach_3035.teachgram_back.service.UserService;
@@ -23,5 +24,10 @@ public class UserController {
     @PostMapping("/signin")
     public LoginResDTO loginUser (@Valid @RequestBody LoginReqDTO request) {
         return userService.loginUser(request);
+    }
+
+    @PatchMapping("/update/{id}")
+    public UserResDTO updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserReqDTO request) {
+        return userService.updateUser(id, request);
     }
 }
