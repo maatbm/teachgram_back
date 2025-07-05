@@ -26,7 +26,7 @@ public class UserController {
         return userService.loginUser(request);
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/{id}")
     public UserResDTO updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserReqDTO request) {
         return userService.updateUser(id, request);
     }
