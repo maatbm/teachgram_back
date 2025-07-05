@@ -16,3 +16,6 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 
 );
+
+-- INDEXES
+CREATE INDEX idx_users_active ON users(id) WHERE deleted = FALSE;
