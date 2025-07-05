@@ -86,4 +86,11 @@ public class UserService {
                 user.getPhoneNumber()
         );
     }
+
+    public void deleteUser(Long id) {
+        UserModel user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        userRepository.delete(user);
+    }
 }
