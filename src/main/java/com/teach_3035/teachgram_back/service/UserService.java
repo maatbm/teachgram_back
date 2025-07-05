@@ -93,4 +93,18 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         userRepository.delete(user);
     }
+
+    public UserResDTO getUser(String username) {
+        return userRepository
+                .findByEmail(username)
+                .map(user -> new UserResDTO(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getUsername(),
+                        user.getDescription(),
+                        user.getPhoneNumber()
+                ))
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + username));
+    }
 }

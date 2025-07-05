@@ -8,6 +8,8 @@ import com.teach_3035.teachgram_back.dto.res.UserResDTO;
 import com.teach_3035.teachgram_back.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,5 +36,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
+    }
+
+    @GetMapping
+    public UserResDTO getUser(@AuthenticationPrincipal UserDetails user){
+        return userService.getUser(user.getUsername());
     }
 }
