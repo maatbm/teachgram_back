@@ -55,7 +55,7 @@ public class UserModel implements UserDetails {
     @NonNull
     private String profileLink;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     private List<PostModel> posts = new ArrayList<>();
 
