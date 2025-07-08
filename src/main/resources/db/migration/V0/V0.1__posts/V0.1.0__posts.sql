@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS posts (
     photo_link VARCHAR,
     video_link VARCHAR,
     private BOOLEAN NOT NULL DEFAULT FALSE,
-    user_id BIGINT NOT NULL FOREIGN KEY REFERENCES users(id),
+    user_id BIGINT NOT NULL REFERENCES users(id),
     likes BIGINT NOT NULL DEFAULT 0,
 
     -- AUDIT FIELDS
