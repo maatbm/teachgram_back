@@ -37,7 +37,7 @@ public class UserModel implements UserDetails {
 
     @Column(name = "username", nullable = false, unique = true)
     @NonNull
-    private String userName;
+    private String usernameField;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     @NonNull
