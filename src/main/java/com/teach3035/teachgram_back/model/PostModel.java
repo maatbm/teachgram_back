@@ -36,10 +36,12 @@ public class PostModel {
     private String videoLink;
 
     @Column(name = "private", nullable = false)
+    @NonNull
     private Boolean isPrivate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @NonNull
     private UserModel user;
 
     @Column(name = "created_at", nullable = false, updatable = false)
