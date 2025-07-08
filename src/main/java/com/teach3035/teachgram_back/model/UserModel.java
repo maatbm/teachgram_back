@@ -50,7 +50,7 @@ public class UserModel implements UserDetails {
     @NonNull
     private String password;
 
-    @Column(name = "profle_link", nullable = false)
+    @Column(name = "profile_link", nullable = false)
     @NonNull
     private String profileLink;
 
