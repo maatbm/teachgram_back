@@ -9,7 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "frindships")
+@Table(name = "friendships")
 @SoftDelete
 @Getter
 @NoArgsConstructor
