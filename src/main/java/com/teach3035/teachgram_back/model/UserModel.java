@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -53,6 +54,9 @@ public class UserModel implements UserDetails {
     @Column(name = "profile_link", nullable = false)
     @NonNull
     private String profileLink;
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<PostModel> posts = new ArrayList<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
