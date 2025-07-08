@@ -34,11 +34,11 @@ public class UserService {
     }
 
     private void validateUniqueFields(String mail, String username, String phone) {
-        Optional<UserModel> user = userRepository.findByMailOrUsernameOrPhone(mail, username, phone);
+        Optional<UserModel> user = userRepository.findByMailOrUsernameFieldOrPhone(mail, username, phone);
         if (user.isPresent()) {
             if (user.get().getMail().equals(mail))
                 throw new RuntimeException("Email already exsists");
-            if (user.get().getUsername().equals(username))
+            if (user.get().getUsernameField().equals(username))
                 throw new RuntimeException("Username already exsists");
             if (user.get().getPhone().equals(phone))
                 throw new RuntimeException("Phone already exsists");
@@ -54,7 +54,7 @@ public class UserService {
                 user.getId(),
                 user.getName(),
                 user.getMail(),
-                user.getUsername(),
+                user.getUsernameField(),
                 user.getDescription(),
                 user.getPhone(),
                 user.getProfileLink()
