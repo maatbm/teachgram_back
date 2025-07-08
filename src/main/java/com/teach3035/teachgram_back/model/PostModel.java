@@ -44,6 +44,9 @@ public class PostModel {
     @NonNull
     private UserModel user;
 
+    @Column(nullable = false)
+    private Long likes;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     @Setter(AccessLevel.NONE)
