@@ -30,9 +30,11 @@ public class PostModel {
     private String description;
 
     @Column(name = "photo_link")
+    @NonNull
     private String photoLink;
 
     @Column(name = "video_link")
+    @NonNull
     private String videoLink;
 
     @Column(name = "private", nullable = false)
