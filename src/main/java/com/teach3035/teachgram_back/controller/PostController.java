@@ -32,4 +32,13 @@ public class PostController {
     ) {
         return postService.getFeedPosts(page, size);
     }
+
+    @GetMapping("/profile")
+    public List<PostResDTO> getUserPosts(
+            @AuthenticationPrincipal UserDetails user,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ){
+        return postService.getUserPosts(user.getUsername(), page, size);
+    }
 }
