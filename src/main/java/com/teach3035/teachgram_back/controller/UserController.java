@@ -27,7 +27,7 @@ public class UserController {
         return userService.signin(request);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<UserResDTO> getAllNonDeletedUsers(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
