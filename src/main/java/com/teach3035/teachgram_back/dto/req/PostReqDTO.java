@@ -1,6 +1,7 @@
 package com.teach3035.teachgram_back.dto.req;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record PostReqDTO(
@@ -18,7 +19,7 @@ public record PostReqDTO(
         @Size(min = 5, max = 255, message = "Video link must be between 5 and 255 characters")
         String videoLink,
 
-        @NotBlank(message = "Privacy is required")
+        @NotNull(message = "Privacy is required")
         Boolean isPrivate
 ) {
 }
