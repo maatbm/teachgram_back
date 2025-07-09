@@ -6,6 +6,7 @@ import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
+import com.teach3035.teachgram_back.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,8 @@ public class UserService {
     AuthenticationManager authenticationManager;
     @Autowired
     TokenService tokenService;
+    @Autowired
+    UserUtils userUtils;
 
     public UserResDTO signup(SignupUserReqDTO request) {
         this.validateUniqueFields(request.mail(), request.username(), request.phone());
@@ -55,6 +58,11 @@ public class UserService {
         Pageable pageable = PageRequest.of(page, size);
         Page<UserModel> users = userRepository.getAllNonDeleted(pageable);
         return users.stream().map(this::userResDTOBuilder).toList();
+    }
+
+    public UserResDTO getUserProfile(String email) {
+        UserModel user = userUtils.getUserByEmail(email);
+        return this.userResDTOBuilder(user);
     }
 
     private void validateUniqueFields(String mail, String username, String phone) {

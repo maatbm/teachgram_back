@@ -7,6 +7,8 @@ import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +35,10 @@ public class UserController {
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         return userService.getAllNonDeletedUsers(page, size);
+    }
+
+    @GetMapping
+    public UserResDTO getUserProfile(@AuthenticationPrincipal UserDetails user){
+        return userService.getUserProfile(user.getUsername());
     }
 }
