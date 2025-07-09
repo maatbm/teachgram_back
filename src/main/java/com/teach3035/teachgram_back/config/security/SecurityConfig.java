@@ -1,5 +1,6 @@
 package com.teach3035.teachgram_back.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,10 +13,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Autowired
+    JwtSecurityFilter jwtSecurityFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
@@ -27,7 +31,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/user/signup").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/user/signin").permitAll()
                                 .anyRequest().authenticated()
-                );
+                )
+                .addFilterBefore(jwtSecurityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return security.build();
     }
