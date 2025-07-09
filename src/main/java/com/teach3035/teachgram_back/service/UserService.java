@@ -7,11 +7,15 @@ import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,6 +49,12 @@ public class UserService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.mail(), request.password());
         authenticationManager.authenticate(token);
         return tokenService.generateToken(request.mail());
+    }
+
+    public List<UserResDTO> getAllNonDeletedUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<UserModel> users = userRepository.getAllNonDeleted(pageable);
+        return users.stream().map(this::userResDTOBuilder).toList();
     }
 
     private void validateUniqueFields(String mail, String username, String phone) {
