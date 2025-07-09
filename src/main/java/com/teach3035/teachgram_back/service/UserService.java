@@ -1,10 +1,14 @@
 package com.teach3035.teachgram_back.service;
 
+import com.teach3035.teachgram_back.dto.req.SigninReqDTO;
 import com.teach3035.teachgram_back.dto.req.SignupUserReqDTO;
+import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,10 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    TokenService tokenService;
 
     public UserResDTO signup(SignupUserReqDTO request) {
         this.validateUniqueFields(request.mail(), request.username(), request.phone());
@@ -31,6 +39,12 @@ public class UserService {
         );
         userRepository.save(newUser);
         return this.userResDTOBuilder(newUser);
+    }
+
+    public JwtTokenResDTO signin(SigninReqDTO request) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.mail(), request.password());
+        authenticationManager.authenticate(token);
+        return tokenService.generateToken(request.mail());
     }
 
     private void validateUniqueFields(String mail, String username, String phone) {
