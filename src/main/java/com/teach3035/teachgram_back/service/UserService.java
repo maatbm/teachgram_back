@@ -78,6 +78,11 @@ public class UserService {
         return this.userResDTOBuilder(updatedUser);
     }
 
+    public void deleteUser(String email) {
+        UserModel user = userUtils.getUserByEmail(email);
+        userRepository.delete(user);
+    }
+
     private void validateUniqueFields(String mail, String username, String phone) {
         if (userRepository.existsByMail(mail))
             throw new RuntimeException("Email already exists");

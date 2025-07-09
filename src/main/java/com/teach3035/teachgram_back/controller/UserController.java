@@ -50,4 +50,9 @@ public class UserController {
     ) {
         return userService.updateUser(user.getUsername(), request);
     }
+
+    @DeleteMapping
+    public void deleteUser(@AuthenticationPrincipal UserDetails user){
+        userService.deleteUser(user.getUsername());
+    }
 }
