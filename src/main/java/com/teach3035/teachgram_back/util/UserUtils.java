@@ -13,6 +13,6 @@ public class UserUtils {
     public UserModel getUserByEmail(String email) {
         return userRepository
                 .findByMail(email)
-                .orElseThrow(() -> new RuntimeException("User not found with email " + email));
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
