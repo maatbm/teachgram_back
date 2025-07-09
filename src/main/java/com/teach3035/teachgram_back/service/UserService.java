@@ -9,7 +9,6 @@ import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
 import com.teach3035.teachgram_back.util.UserUtils;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,7 +36,7 @@ public class UserService {
 
     public UserResDTO signup(SignupUserReqDTO request) {
         this.validateUniqueFields(request.mail(), request.username(), request.phone());
-        String encryptedPassword = this.encryptPassword(request.password());
+        String encryptedPassword = passwordEncoder.encode(request.password());
         UserModel newUser = new UserModel(
                 request.name(),
                 request.mail(),
@@ -92,10 +91,6 @@ public class UserService {
             throw new RuntimeException("Phone already exists");
     }
 
-    private String encryptPassword(String password) {
-        return passwordEncoder.encode(password);
-    }
-
     private UserResDTO userResDTOBuilder(UserModel user) {
         return new UserResDTO(
                 user.getId(),
@@ -114,7 +109,7 @@ public class UserService {
         Optional.ofNullable(request.username()).ifPresent(user::setUsernameField);
         Optional.ofNullable(request.description()).ifPresent(user::setDescription);
         Optional.ofNullable(request.phone()).ifPresent(user::setPhone);
-        Optional.ofNullable(request.password()).ifPresent(pw->user.setPassword(this.encryptPassword(pw)));
+        Optional.ofNullable(request.password()).ifPresent(pw->user.setPassword(passwordEncoder.encode(pw)));
         Optional.ofNullable(request.profileLink()).ifPresent(user::setProfileLink);
         return user;
     }
