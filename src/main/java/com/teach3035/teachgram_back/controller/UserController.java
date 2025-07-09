@@ -2,7 +2,7 @@ package com.teach3035.teachgram_back.controller;
 
 import com.teach3035.teachgram_back.dto.req.SigninReqDTO;
 import com.teach3035.teachgram_back.dto.req.SignupUserReqDTO;
-import com.teach3035.teachgram_back.dto.res.SigninResDTO;
+import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.service.UserService;
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public SigninResDTO signgin(@Valid @RequestBody SigninReqDTO request) {
+    public JwtTokenResDTO signgin(@Valid @RequestBody SigninReqDTO request) {
         return userService.signin(request);
     }
 }
