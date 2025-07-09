@@ -16,6 +16,9 @@ public record PostReqDTO(
         String photoLink,
 
         @Size(min = 5, max = 255, message = "Video link must be between 5 and 255 characters")
-        String videoLink
+        String videoLink,
+
+        @NotBlank(message = "Privacy is required")
+        Boolean isPrivate
 ) {
 }
