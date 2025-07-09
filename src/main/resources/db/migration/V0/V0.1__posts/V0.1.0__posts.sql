@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS posts (
     video_link VARCHAR,
     private BOOLEAN NOT NULL DEFAULT FALSE,
     user_id BIGINT NOT NULL REFERENCES users(id),
-    likes BIGINT NOT NULL DEFAULT 0,
+    likes BIGINT DEFAULT 0,
 
     -- AUDIT FIELDS
     deleted BOOLEAN DEFAULT FALSE,
