@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -48,7 +49,14 @@ public class PostService {
         return posts.stream().map(this::postResDTOBuilder).toList();
     }
 
-    private PostResDTO postResDTOBuilder(PostModel post){
+    public Long like(Long id) {
+        PostModel post = this.getPostById(id);
+        post.setLikes(post.getLikes() + 1);
+        postRepository.save(post);
+        return post.getLikes();
+    }
+
+    private PostResDTO postResDTOBuilder(PostModel post) {
         return new PostResDTO(
                 post.getId(),
                 post.getTitle(),
@@ -58,5 +66,11 @@ public class PostService {
                 post.getLikes(),
                 post.getCreatedAt()
         );
+    }
+
+    private PostModel getPostById(Long id) {
+        return postRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
     }
 }

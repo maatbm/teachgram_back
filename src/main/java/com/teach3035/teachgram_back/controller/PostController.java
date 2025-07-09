@@ -17,7 +17,7 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @PostMapping
+    @PostMapping("/create")
     public PostResDTO createPost(
             @AuthenticationPrincipal UserDetails user,
             @Valid @RequestBody PostReqDTO request
@@ -40,5 +40,10 @@ public class PostController {
             @RequestParam(value = "size", defaultValue = "10") int size
     ){
         return postService.getUserPosts(user.getUsername(), page, size);
+    }
+
+    @GetMapping("/like/{id}")
+    public Long like(@PathVariable(value = "id") Long id){
+        return postService.like(id);
     }
 }
