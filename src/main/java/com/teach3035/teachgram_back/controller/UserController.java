@@ -1,6 +1,8 @@
 package com.teach3035.teachgram_back.controller;
 
+import com.teach3035.teachgram_back.dto.req.SigninReqDTO;
 import com.teach3035.teachgram_back.dto.req.SignupUserReqDTO;
+import com.teach3035.teachgram_back.dto.res.SigninResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.service.UserService;
 import jakarta.validation.Valid;
@@ -17,7 +19,12 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/signup")
-    public UserResDTO signup (@Valid @RequestBody SignupUserReqDTO request){
+    public UserResDTO signup(@Valid @RequestBody SignupUserReqDTO request) {
         return userService.signup(request);
+    }
+
+    @PostMapping("/signin")
+    public SigninResDTO signgin(@Valid @RequestBody SigninReqDTO request) {
+        return userService.signin(request);
     }
 }
