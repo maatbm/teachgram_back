@@ -2,6 +2,7 @@ package com.teach3035.teachgram_back.controller;
 
 import com.teach3035.teachgram_back.dto.req.SigninReqDTO;
 import com.teach3035.teachgram_back.dto.req.SignupUserReqDTO;
+import com.teach3035.teachgram_back.dto.req.UpdateUserReqDTO;
 import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.service.UserService;
@@ -38,7 +39,15 @@ public class UserController {
     }
 
     @GetMapping
-    public UserResDTO getUserProfile(@AuthenticationPrincipal UserDetails user){
+    public UserResDTO getUserProfile(@AuthenticationPrincipal UserDetails user) {
         return userService.getUserProfile(user.getUsername());
+    }
+
+    @PatchMapping
+    public UserResDTO updateUser(
+            @AuthenticationPrincipal UserDetails user,
+            @Valid @RequestBody UpdateUserReqDTO request
+    ) {
+        return userService.updateUser(user.getUsername(), request);
     }
 }
