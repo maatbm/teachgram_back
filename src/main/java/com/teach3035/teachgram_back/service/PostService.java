@@ -6,6 +6,7 @@ import com.teach3035.teachgram_back.model.PostModel;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.PostRepository;
 import com.teach3035.teachgram_back.util.UserUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,6 +50,7 @@ public class PostService {
         return posts.stream().map(this::postResDTOBuilder).toList();
     }
 
+    @Transactional
     public Long like(Long id) {
         PostModel post = this.getPostById(id);
         post.setLikes(post.getLikes() + 1);
