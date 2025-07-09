@@ -48,15 +48,12 @@ public class UserService {
     }
 
     private void validateUniqueFields(String mail, String username, String phone) {
-        Optional<UserModel> user = userRepository.findByMailOrUsernameFieldOrPhone(mail, username, phone);
-        if (user.isPresent()) {
-            if (user.get().getMail().equals(mail))
-                throw new RuntimeException("Email already exsists");
-            if (user.get().getUsernameField().equals(username))
-                throw new RuntimeException("Username already exsists");
-            if (user.get().getPhone().equals(phone))
-                throw new RuntimeException("Phone already exsists");
-        }
+        if(userRepository.existsByMail(mail))
+            throw new RuntimeException("Email already exists");
+        else if (userRepository.existsByUsernameField(username))
+            throw new RuntimeException("Username already exists");
+        else if (userRepository.existsByPhone(phone))
+            throw new RuntimeException("Phone already exists");
     }
 
     private String encryptPassword(String password) {
