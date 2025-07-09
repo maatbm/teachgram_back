@@ -32,6 +32,15 @@ public class TokenService {
         return new JwtTokenResDTO(tokenPrefix + " ", token, expirantionDate.toEpochMilli());
     }
 
+    public String validateToken(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.require(algorithm)
+                .withIssuer(issuer)
+                .build()
+                .verify(token)
+                .getSubject();
+    }
+
     private Instant getExpirationDate() {
         return LocalDateTime.now().plusHours(expiration).toInstant(ZoneOffset.UTC);
     }
