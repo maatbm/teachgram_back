@@ -46,7 +46,7 @@ public class PostModel {
     @NonNull
     private UserModel user;
 
-    private Long likes;
+    private Long likes = 0L;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
