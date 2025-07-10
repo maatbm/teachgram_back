@@ -18,8 +18,7 @@ CREATE TABLE IF NOT EXISTS posts (
 );
 
 -- INDEXES
-CREATE INDEX idx_posts_public ON posts(private) WHERE private = false;
-CREATE INDEX idx_posts_private ON posts(private) WHERE private = true;
 CREATE INDEX idx_posts_user_id ON posts(user_id);
 CREATE INDEX idx_posts_active ON posts(deleted) WHERE deleted = false;
 CREATE INDEX idx_posts_deleted ON posts(deleted) WHERE deleted = true;
+CREATE INDEX idx_feed_posts ON posts(private, deleted) WHERE private = false AND deleted = false;
