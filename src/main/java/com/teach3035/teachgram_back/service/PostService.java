@@ -3,7 +3,7 @@ package com.teach3035.teachgram_back.service;
 import com.teach3035.teachgram_back.dto.req.PostReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdatePostReqDTO;
 import com.teach3035.teachgram_back.dto.res.PostResDTO;
-import com.teach3035.teachgram_back.exception.ResourceNotFoundException;
+import com.teach3035.teachgram_back.exception.custom.ResourceNotFoundException;
 import com.teach3035.teachgram_back.model.PostModel;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.PostRepository;

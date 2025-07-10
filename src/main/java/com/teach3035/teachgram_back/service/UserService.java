@@ -5,7 +5,7 @@ import com.teach3035.teachgram_back.dto.req.SignupUserReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdateUserReqDTO;
 import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
-import com.teach3035.teachgram_back.exception.DuplicateFieldException;
+import com.teach3035.teachgram_back.exception.custom.DuplicateFieldException;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
 import com.teach3035.teachgram_back.util.UserUtils;
