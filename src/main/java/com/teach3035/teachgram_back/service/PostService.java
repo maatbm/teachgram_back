@@ -1,6 +1,7 @@
 package com.teach3035.teachgram_back.service;
 
 import com.teach3035.teachgram_back.dto.req.PostReqDTO;
+import com.teach3035.teachgram_back.dto.req.UpdatePostReqDTO;
 import com.teach3035.teachgram_back.dto.res.PostResDTO;
 import com.teach3035.teachgram_back.model.PostModel;
 import com.teach3035.teachgram_back.model.UserModel;
@@ -58,6 +59,14 @@ public class PostService {
         return post.getLikes();
     }
 
+    @Transactional
+    public PostResDTO updatePost(Long id, UpdatePostReqDTO request) {
+        PostModel oldPost = this.getPostById(id);
+        PostModel updatedPost = this.updatePostFields(oldPost, request);
+        postRepository.save(updatedPost);
+        return this.postResDTOBuilder(updatedPost);
+    }
+
     private PostResDTO postResDTOBuilder(PostModel post) {
         return new PostResDTO(
                 post.getId(),
@@ -75,5 +84,14 @@ public class PostService {
         return postRepository
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
+    }
+
+    private PostModel updatePostFields(PostModel post, UpdatePostReqDTO request) {
+        Optional.ofNullable(request.title()).ifPresent(post::setTitle);
+        Optional.ofNullable(request.description()).ifPresent(post::setDescription);
+        Optional.ofNullable(request.photoLink()).ifPresent(post::setPhotoLink);
+        Optional.ofNullable(request.videoLink()).ifPresent(post::setVideoLink);
+        Optional.ofNullable(request.isPrivate()).ifPresent(post::setIsPrivate);
+        return post;
     }
 }
