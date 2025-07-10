@@ -65,6 +65,7 @@ public class PostService {
                 post.getDescription(),
                 post.getPhotoLink(),
                 post.getVideoLink(),
+                post.getIsPrivate(),
                 post.getLikes(),
                 post.getCreatedAt()
         );

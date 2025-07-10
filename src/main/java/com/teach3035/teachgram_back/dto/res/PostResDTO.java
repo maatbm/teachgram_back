@@ -8,6 +8,7 @@ public record PostResDTO(
         String description,
         String photoLink,
         String videoLink,
+        Boolean isPrivate,
         Long likes,
         LocalDateTime createdAt
 ) {
