@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<PostModel, Long> {
-    @NativeQuery("SELECT * FROM posts WHERE private = false")
+    @NativeQuery("SELECT * FROM posts WHERE private = false AND deleted = false")
     Page<PostModel> getFeedPosts(Pageable pageable);
 
     Page<PostModel> findByUser(UserModel user, Pageable pageable);
