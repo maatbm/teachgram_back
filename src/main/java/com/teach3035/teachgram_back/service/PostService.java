@@ -67,6 +67,11 @@ public class PostService {
         return this.postResDTOBuilder(updatedPost);
     }
 
+    public void deletePost(Long id) {
+        PostModel post = this.getPostById(id);
+        postRepository.delete(post);
+    }
+
     private PostResDTO postResDTOBuilder(PostModel post) {
         return new PostResDTO(
                 post.getId(),

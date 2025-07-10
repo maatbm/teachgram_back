@@ -55,4 +55,9 @@ public class PostController {
     ) {
         return postService.updatePost(id, request);
     }
+
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable(value = "id") Long id){
+        postService.deletePost(id);
+    }
 }
