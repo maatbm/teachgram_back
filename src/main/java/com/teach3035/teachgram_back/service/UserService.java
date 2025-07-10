@@ -5,6 +5,7 @@ import com.teach3035.teachgram_back.dto.req.SignupUserReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdateUserReqDTO;
 import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
+import com.teach3035.teachgram_back.exception.DuplicateFieldException;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
 import com.teach3035.teachgram_back.util.UserUtils;
@@ -84,11 +85,11 @@ public class UserService {
 
     private void validateUniqueFields(String mail, String username, String phone) {
         if (userRepository.existsByMail(mail))
-            throw new RuntimeException("Email already exists");
+            throw new DuplicateFieldException("Email already exists");
         else if (userRepository.existsByUsernameField(username))
-            throw new RuntimeException("Username already exists");
+            throw new DuplicateFieldException("Username already exists");
         else if (userRepository.existsByPhone(phone))
-            throw new RuntimeException("Phone already exists");
+            throw new DuplicateFieldException("Phone already exists");
     }
 
     private UserResDTO userResDTOBuilder(UserModel user) {
