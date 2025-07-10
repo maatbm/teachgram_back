@@ -43,7 +43,7 @@ public class PostController {
         return postService.getUserPosts(user.getUsername(), page, size);
     }
 
-    @GetMapping("/like/{id}")
+    @PatchMapping("/like/{id}")
     public Long like(@PathVariable(value = "id") Long id) {
         return postService.like(id);
     }
