@@ -51,9 +51,10 @@ public class PostController {
     @PatchMapping("/{id}")
     public PostResDTO updatePost(
             @PathVariable(value = "id") Long id,
+            @AuthenticationPrincipal UserDetails user,
             @Valid @RequestBody UpdatePostReqDTO request
     ) {
-        return postService.updatePost(id, request);
+        return postService.updatePost(id, user.getUsername(), request);
     }
 
     @DeleteMapping("/{id}")
