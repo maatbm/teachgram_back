@@ -48,7 +48,7 @@ public class UserController {
             @AuthenticationPrincipal UserModel user,
             @Valid @RequestBody UpdateUserReqDTO request
     ) {
-        return userService.updateUser(user, request);
+        return userService.updateUser(user.getMail(), request);
     }
 
     @DeleteMapping

@@ -6,6 +6,7 @@ import com.teach3035.teachgram_back.dto.req.UpdateUserReqDTO;
 import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.exception.custom.DuplicateFieldException;
+import com.teach3035.teachgram_back.exception.custom.ResourceNotFoundException;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +64,9 @@ public class UserService {
         return this.userResDTOBuilder(user);
     }
 
-    public UserResDTO updateUser(UserModel oldUser, UpdateUserReqDTO request) {
+    public UserResDTO updateUser(String mail, UpdateUserReqDTO request) {
         this.validateUniqueFields(request.mail(), request.username(), request.phone());
+        UserModel oldUser = this.getUserByMail(mail);
         UserModel updatedUser = this.updateUserFields(request, oldUser);
         userRepository.save(updatedUser);
         return this.userResDTOBuilder(updatedUser);
@@ -104,5 +106,11 @@ public class UserService {
         Optional.ofNullable(request.password()).ifPresent(pw -> user.setPassword(passwordEncoder.encode(pw)));
         Optional.ofNullable(request.profileLink()).ifPresent(user::setProfileLink);
         return user;
+    }
+
+    private UserModel getUserByMail(String mail) {
+        return userRepository
+                .findByMail(mail)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
     }
 }
