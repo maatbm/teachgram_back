@@ -8,8 +8,6 @@ import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.exception.custom.DuplicateFieldException;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
-import com.teach3035.teachgram_back.util.UserUtils;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,8 +30,6 @@ public class UserService {
     AuthenticationManager authenticationManager;
     @Autowired
     TokenService tokenService;
-    @Autowired
-    UserUtils userUtils;
 
     public UserResDTO signup(SignupUserReqDTO request) {
         this.validateUniqueFields(request.mail(), request.username(), request.phone());
