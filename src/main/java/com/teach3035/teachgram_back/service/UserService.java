@@ -67,10 +67,7 @@ public class UserService {
         return this.userResDTOBuilder(user);
     }
 
-
-    @Transactional
-    public UserResDTO updateUser(String email, UpdateUserReqDTO request) {
-        UserModel oldUser = userUtils.getUserByEmail(email);
+    public UserResDTO updateUser(UserModel oldUser, UpdateUserReqDTO request) {
         this.validateUniqueFields(request.mail(), request.username(), request.phone());
         UserModel updatedUser = this.updateUserFields(request, oldUser);
         userRepository.save(updatedUser);

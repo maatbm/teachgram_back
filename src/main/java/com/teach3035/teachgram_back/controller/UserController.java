@@ -46,14 +46,14 @@ public class UserController {
 
     @PatchMapping
     public UserResDTO updateUser(
-            @AuthenticationPrincipal UserDetails user,
+            @AuthenticationPrincipal UserModel user,
             @Valid @RequestBody UpdateUserReqDTO request
     ) {
-        return userService.updateUser(user.getUsername(), request);
+        return userService.updateUser(user, request);
     }
 
     @DeleteMapping
-    public void deleteUser(@AuthenticationPrincipal UserDetails user){
+    public void deleteUser(@AuthenticationPrincipal UserDetails user) {
         userService.deleteUser(user.getUsername());
     }
 }
