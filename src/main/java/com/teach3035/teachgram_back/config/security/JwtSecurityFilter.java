@@ -20,15 +20,13 @@ import java.io.IOException;
 public class JwtSecurityFilter extends OncePerRequestFilter {
     @Autowired
     TokenService tokenService;
-    @Autowired
-    UserUtils userUtils;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = this.getToken(request);
         if (token != null) {
             String email = tokenService.validateToken(token);
-            UserModel user = userUtils.getUserByEmail(email);
+            UserModel user = new UserModel(email);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
