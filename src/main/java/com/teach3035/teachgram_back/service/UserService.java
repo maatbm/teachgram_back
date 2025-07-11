@@ -63,8 +63,7 @@ public class UserService {
         return users.stream().map(this::userResDTOBuilder).toList();
     }
 
-    public UserResDTO getUserProfile(String email) {
-        UserModel user = userUtils.getUserByEmail(email);
+    public UserResDTO getUserProfile(UserModel user) {
         return this.userResDTOBuilder(user);
     }
 

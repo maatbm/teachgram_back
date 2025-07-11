@@ -5,6 +5,7 @@ import com.teach3035.teachgram_back.dto.req.SignupUserReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdateUserReqDTO;
 import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
+import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,8 @@ public class UserController {
     }
 
     @GetMapping
-    public UserResDTO getUserProfile(@AuthenticationPrincipal UserDetails user) {
-        return userService.getUserProfile(user.getUsername());
+    public UserResDTO getUserProfile(@AuthenticationPrincipal UserModel user) {
+        return userService.getUserProfile(user);
     }
 
     @PatchMapping
