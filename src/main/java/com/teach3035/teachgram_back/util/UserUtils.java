@@ -14,6 +14,6 @@ public class UserUtils {
     public UserModel getUserByEmail(String email) {
         return userRepository
                 .findByMail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Email não encontrado"));
     }
 }
