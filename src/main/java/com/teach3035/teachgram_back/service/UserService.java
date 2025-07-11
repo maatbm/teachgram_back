@@ -9,6 +9,7 @@ import com.teach3035.teachgram_back.exception.custom.DuplicateFieldException;
 import com.teach3035.teachgram_back.exception.custom.ResourceNotFoundException;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -72,6 +73,7 @@ public class UserService {
         return this.userResDTOBuilder(updatedUser);
     }
 
+    @Transactional
     public void deleteUser(String mail) {
         userRepository.deleteByMail(mail);
     }
