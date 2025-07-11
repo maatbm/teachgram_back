@@ -53,6 +53,6 @@ public class UserController {
 
     @DeleteMapping
     public void deleteUser(@AuthenticationPrincipal UserModel user) {
-        userService.deleteUser(user);
+        userService.deleteUser(user.getMail());
     }
 }

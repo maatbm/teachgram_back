@@ -72,8 +72,8 @@ public class UserService {
         return this.userResDTOBuilder(updatedUser);
     }
 
-    public void deleteUser(UserModel user) {
-        userRepository.delete(user);
+    public void deleteUser(String mail) {
+        userRepository.deleteByMail(mail);
     }
 
     private void validateUniqueFields(String mail, String username, String phone) {

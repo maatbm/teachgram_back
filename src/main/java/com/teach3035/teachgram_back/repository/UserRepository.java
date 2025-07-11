@@ -21,4 +21,6 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     @NativeQuery("SELECT * FROM users WHERE deleted = false")
     Page<UserModel> getAllNonDeleted(Pageable pageable);
+
+    void deleteByMail(String mail);
 }
