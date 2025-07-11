@@ -2,7 +2,6 @@ package com.teach3035.teachgram_back.config.security;
 
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.service.TokenService;
-import com.teach3035.teachgram_back.util.UserUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
