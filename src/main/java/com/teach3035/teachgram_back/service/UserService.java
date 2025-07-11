@@ -104,13 +104,13 @@ public class UserService {
         );
     }
 
-    private UserModel updateUserFields(UpdateUserReqDTO request, UserModel user){
+    private UserModel updateUserFields(UpdateUserReqDTO request, UserModel user) {
         Optional.ofNullable(request.name()).ifPresent(user::setName);
         Optional.ofNullable(request.mail()).ifPresent(user::setMail);
         Optional.ofNullable(request.username()).ifPresent(user::setUsernameField);
         Optional.ofNullable(request.description()).ifPresent(user::setDescription);
         Optional.ofNullable(request.phone()).ifPresent(user::setPhone);
-        Optional.ofNullable(request.password()).ifPresent(pw->user.setPassword(passwordEncoder.encode(pw)));
+        Optional.ofNullable(request.password()).ifPresent(pw -> user.setPassword(passwordEncoder.encode(pw)));
         Optional.ofNullable(request.profileLink()).ifPresent(user::setProfileLink);
         return user;
     }
