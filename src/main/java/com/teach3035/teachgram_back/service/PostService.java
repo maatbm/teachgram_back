@@ -25,8 +25,7 @@ public class PostService {
     @Autowired
     PostRepository postRepository;
 
-    public PostResDTO createPost(String email, PostReqDTO request) {
-        UserModel user = userUtils.getUserByEmail(email);
+    public PostResDTO createPost(UserModel user, PostReqDTO request) {
         PostModel post = new PostModel(
                 request.title(),
                 request.description(),

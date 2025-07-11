@@ -21,10 +21,10 @@ public class PostController {
 
     @PostMapping
     public PostResDTO createPost(
-            @AuthenticationPrincipal UserDetails user,
+            @AuthenticationPrincipal UserModel user,
             @Valid @RequestBody PostReqDTO request
     ) {
-        return postService.createPost(user.getUsername(), request);
+        return postService.createPost(user, request);
     }
 
     @GetMapping("/feed")
