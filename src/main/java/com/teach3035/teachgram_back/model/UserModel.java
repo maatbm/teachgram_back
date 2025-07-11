@@ -100,4 +100,8 @@ public class UserModel implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public UserModel(@NonNull String mail) {
+        this.mail = mail;
+    }
 }
