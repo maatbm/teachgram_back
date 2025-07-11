@@ -44,8 +44,7 @@ public class PostService {
         return posts.stream().map(this::postResDTOBuilder).toList();
     }
 
-    public List<PostResDTO> getUserPosts(String email, int page, int size) {
-        UserModel user = userUtils.getUserByEmail(email);
+    public List<PostResDTO> getUserPosts(UserModel user, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<PostModel> posts = postRepository.findByUser(user, pageable);
         return posts.stream().map(this::postResDTOBuilder).toList();

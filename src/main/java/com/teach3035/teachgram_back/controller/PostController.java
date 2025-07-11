@@ -8,7 +8,6 @@ import com.teach3035.teachgram_back.service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,11 +36,11 @@ public class PostController {
 
     @GetMapping("/profile")
     public List<PostResDTO> getUserPosts(
-            @AuthenticationPrincipal UserDetails user,
+            @AuthenticationPrincipal UserModel user,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        return postService.getUserPosts(user.getUsername(), page, size);
+        return postService.getUserPosts(user, page, size);
     }
 
     @PatchMapping("/like/{id}")
