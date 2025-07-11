@@ -3,6 +3,7 @@ package com.teach3035.teachgram_back.controller;
 import com.teach3035.teachgram_back.dto.req.PostReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdatePostReqDTO;
 import com.teach3035.teachgram_back.dto.res.PostResDTO;
+import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,14 +52,14 @@ public class PostController {
     @PatchMapping("/{id}")
     public PostResDTO updatePost(
             @PathVariable(value = "id") Long id,
-            @AuthenticationPrincipal UserDetails user,
+            @AuthenticationPrincipal UserModel user,
             @Valid @RequestBody UpdatePostReqDTO request
     ) {
-        return postService.updatePost(id, user.getUsername(), request);
+        return postService.updatePost(id, user, request);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable(value = "id") Long id){
+    public void deletePost(@PathVariable(value = "id") Long id) {
         postService.deletePost(id);
     }
 }

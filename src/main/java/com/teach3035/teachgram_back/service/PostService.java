@@ -61,9 +61,9 @@ public class PostService {
     }
 
     @Transactional
-    public PostResDTO updatePost(Long id, String email, UpdatePostReqDTO request) {
+    public PostResDTO updatePost(Long id, UserModel user, UpdatePostReqDTO request) {
         PostModel oldPost = this.getPostById(id);
-        this.postBelongsToUser(oldPost, email);
+        this.postBelongsToUser(oldPost, user);
         PostModel updatedPost = this.updatePostFields(oldPost, request);
         postRepository.save(updatedPost);
         return this.postResDTOBuilder(updatedPost);
@@ -102,9 +102,8 @@ public class PostService {
         return post;
     }
 
-    private void postBelongsToUser(PostModel post, String email){
-        UserModel user = userUtils.getUserByEmail(email);
-        if(post.getUser() != user)
+    private void postBelongsToUser(PostModel post, UserModel user) {
+        if (post.getUser() != user)
             throw new RuntimeException("Post não pertence a este usuário");
     }
 }
