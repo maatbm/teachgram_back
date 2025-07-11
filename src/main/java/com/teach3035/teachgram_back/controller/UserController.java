@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping
     public UserResDTO getUserProfile(@AuthenticationPrincipal UserModel user) {
-        return userService.getUserProfile(user);
+        return userService.getUserProfile(user.getMail());
     }
 
     @PatchMapping
