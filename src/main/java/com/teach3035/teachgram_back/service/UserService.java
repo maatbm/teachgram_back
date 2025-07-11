@@ -74,8 +74,7 @@ public class UserService {
         return this.userResDTOBuilder(updatedUser);
     }
 
-    public void deleteUser(String email) {
-        UserModel user = userUtils.getUserByEmail(email);
+    public void deleteUser(UserModel user) {
         userRepository.delete(user);
     }
 
