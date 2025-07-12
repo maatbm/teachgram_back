@@ -70,8 +70,8 @@ public class UserService {
     }
 
     public UserResDTO updateUser(String mail, UpdateUserReqDTO request) {
-        this.validateUniqueFields(request.mail(), request.username(), request.phone());
         UserModel oldUser = userUtils.getUserByMail(mail);
+        this.validateUniqueFields(request.mail(), request.username(), request.phone(), oldUser.getId());
         UserModel updatedUser = this.updateUserFields(request, oldUser);
         userRepository.save(updatedUser);
         return this.userResDTOBuilder(updatedUser);
@@ -83,11 +83,20 @@ public class UserService {
     }
 
     private void validateUniqueFields(String mail, String username, String phone) {
-        if (userRepository.existsByMail(mail))
+        if (userRepository.existsByMailIncludingDeleted(mail))
             throw new DuplicateFieldException("Email already exists");
-        else if (userRepository.existsByUsernameField(username))
+        if (userRepository.existsByUsernameFieldIncludingDeleted(username))
             throw new DuplicateFieldException("Username already exists");
-        else if (userRepository.existsByPhone(phone))
+        if (userRepository.existsByPhoneIncludingDeleted(phone))
+            throw new DuplicateFieldException("Phone already exists");
+    }
+
+    private void validateUniqueFields(String mail, String username, String phone, Long id) {
+        if (mail != null && userRepository.existsByMailAndIdNot(mail, id))
+            throw new DuplicateFieldException("Email already exists");
+        if (username != null && userRepository.existsByUsernameFieldAndIdNot(username, id))
+            throw new DuplicateFieldException("Username already exists");
+        if (phone != null && userRepository.existsByPhoneAndIdNot(phone, id))
             throw new DuplicateFieldException("Phone already exists");
     }
 
@@ -114,7 +123,7 @@ public class UserService {
         return user;
     }
 
-    private PageUserResDTO pageUserResDTOBuilder(Page<UserModel> users){
+    private PageUserResDTO pageUserResDTOBuilder(Page<UserModel> users) {
         List<UserResDTO> listUsers = users.stream().map(this::userResDTOBuilder).toList();
         return new PageUserResDTO(
                 listUsers,
