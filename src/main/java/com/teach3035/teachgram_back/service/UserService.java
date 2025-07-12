@@ -4,6 +4,7 @@ import com.teach3035.teachgram_back.dto.req.SigninReqDTO;
 import com.teach3035.teachgram_back.dto.req.SignupUserReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdateUserReqDTO;
 import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
+import com.teach3035.teachgram_back.dto.res.PageUserResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.exception.custom.DuplicateFieldException;
 import com.teach3035.teachgram_back.model.UserModel;
@@ -57,10 +58,10 @@ public class UserService {
         return tokenService.generateToken(request.mail());
     }
 
-    public List<UserResDTO> getAllNonDeletedUsers(int page, int size) {
+    public PageUserResDTO getAllNonDeletedUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<UserModel> users = userRepository.getAllNonDeleted(pageable);
-        return users.stream().map(this::userResDTOBuilder).toList();
+        return this.pageUserResDTOBuilder(users);
     }
 
     public UserResDTO getUserProfile(String mail) {
@@ -111,5 +112,14 @@ public class UserService {
         Optional.ofNullable(request.password()).ifPresent(pw -> user.setPassword(passwordEncoder.encode(pw)));
         Optional.ofNullable(request.profileLink()).ifPresent(user::setProfileLink);
         return user;
+    }
+
+    private PageUserResDTO pageUserResDTOBuilder(Page<UserModel> users){
+        List<UserResDTO> listUsers = users.stream().map(this::userResDTOBuilder).toList();
+        return new PageUserResDTO(
+                listUsers,
+                users.getTotalElements(),
+                users.getTotalPages()
+        );
     }
 }

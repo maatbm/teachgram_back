@@ -4,6 +4,7 @@ import com.teach3035.teachgram_back.dto.req.SigninReqDTO;
 import com.teach3035.teachgram_back.dto.req.SignupUserReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdateUserReqDTO;
 import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
+import com.teach3035.teachgram_back.dto.res.PageUserResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.service.UserService;
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public List<UserResDTO> getAllNonDeletedUsers(
+    public PageUserResDTO getAllNonDeletedUsers(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
