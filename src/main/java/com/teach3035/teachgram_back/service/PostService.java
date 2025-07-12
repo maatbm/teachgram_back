@@ -2,6 +2,7 @@ package com.teach3035.teachgram_back.service;
 
 import com.teach3035.teachgram_back.dto.req.PostReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdatePostReqDTO;
+import com.teach3035.teachgram_back.dto.res.PagePostResDTO;
 import com.teach3035.teachgram_back.dto.res.PostResDTO;
 import com.teach3035.teachgram_back.exception.custom.PostNotBelongsToUserException;
 import com.teach3035.teachgram_back.exception.custom.ResourceNotFoundException;
@@ -40,17 +41,17 @@ public class PostService {
         return this.postResDTOBuilder(post);
     }
 
-    public List<PostResDTO> getFeedPosts(int page, int size) {
+    public PagePostResDTO getFeedPosts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<PostModel> posts = postRepository.getFeedPosts(pageable);
-        return posts.stream().map(this::postResDTOBuilder).toList();
+        return this.pagePostResDTOBuilder(posts);
     }
 
-    public List<PostResDTO> getUserPosts(String mail, int page, int size) {
+    public PagePostResDTO getUserPosts(String mail, int page, int size) {
         UserModel user = userUtils.getUserByMail(mail);
         Pageable pageable = PageRequest.of(page, size);
         Page<PostModel> posts = postRepository.findByUser(user, pageable);
-        return posts.stream().map(this::postResDTOBuilder).toList();
+        return this.pagePostResDTOBuilder(posts);
     }
 
     @Transactional
@@ -107,5 +108,14 @@ public class PostService {
     private void postBelongsToUser(PostModel post, UserModel user) {
         if (!post.getUser().getMail().equals(user.getMail()))
             throw new PostNotBelongsToUserException("Post não pertence a este usuário");
+    }
+
+    private PagePostResDTO pagePostResDTOBuilder(Page<PostModel> posts) {
+        List<PostResDTO> listPosts = posts.stream().map(this::postResDTOBuilder).toList();
+        return new PagePostResDTO(
+                listPosts,
+                posts.getTotalElements(),
+                posts.getTotalPages()
+        );
     }
 }

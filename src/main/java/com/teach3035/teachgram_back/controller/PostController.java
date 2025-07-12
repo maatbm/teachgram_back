@@ -2,6 +2,7 @@ package com.teach3035.teachgram_back.controller;
 
 import com.teach3035.teachgram_back.dto.req.PostReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdatePostReqDTO;
+import com.teach3035.teachgram_back.dto.res.PagePostResDTO;
 import com.teach3035.teachgram_back.dto.res.PostResDTO;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.service.PostService;
@@ -27,7 +28,7 @@ public class PostController {
     }
 
     @GetMapping("/feed")
-    public List<PostResDTO> getFeedPosts(
+    public PagePostResDTO getFeedPosts(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
@@ -35,7 +36,7 @@ public class PostController {
     }
 
     @GetMapping("/profile")
-    public List<PostResDTO> getUserPosts(
+    public PagePostResDTO getUserPosts(
             @AuthenticationPrincipal UserModel user,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
