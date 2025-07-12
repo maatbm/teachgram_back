@@ -6,9 +6,9 @@ import com.teach3035.teachgram_back.dto.req.UpdateUserReqDTO;
 import com.teach3035.teachgram_back.dto.res.JwtTokenResDTO;
 import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.exception.custom.DuplicateFieldException;
-import com.teach3035.teachgram_back.exception.custom.ResourceNotFoundException;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
+import com.teach3035.teachgram_back.util.UserUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +32,8 @@ public class UserService {
     AuthenticationManager authenticationManager;
     @Autowired
     TokenService tokenService;
+    @Autowired
+    UserUtils userUtils;
 
     public UserResDTO signup(SignupUserReqDTO request) {
         this.validateUniqueFields(request.mail(), request.username(), request.phone());
@@ -62,13 +64,13 @@ public class UserService {
     }
 
     public UserResDTO getUserProfile(String mail) {
-        UserModel user = this.getUserByMail(mail);
+        UserModel user = userUtils.getUserByMail(mail);
         return this.userResDTOBuilder(user);
     }
 
     public UserResDTO updateUser(String mail, UpdateUserReqDTO request) {
         this.validateUniqueFields(request.mail(), request.username(), request.phone());
-        UserModel oldUser = this.getUserByMail(mail);
+        UserModel oldUser = userUtils.getUserByMail(mail);
         UserModel updatedUser = this.updateUserFields(request, oldUser);
         userRepository.save(updatedUser);
         return this.userResDTOBuilder(updatedUser);
@@ -109,11 +111,5 @@ public class UserService {
         Optional.ofNullable(request.password()).ifPresent(pw -> user.setPassword(passwordEncoder.encode(pw)));
         Optional.ofNullable(request.profileLink()).ifPresent(user::setProfileLink);
         return user;
-    }
-
-    private UserModel getUserByMail(String mail) {
-        return userRepository
-                .findByMail(mail)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
     }
 }

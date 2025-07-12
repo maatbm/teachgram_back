@@ -7,6 +7,7 @@ import com.teach3035.teachgram_back.exception.custom.ResourceNotFoundException;
 import com.teach3035.teachgram_back.model.PostModel;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.PostRepository;
+import com.teach3035.teachgram_back.util.UserUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,8 +22,11 @@ import java.util.Optional;
 public class PostService {
     @Autowired
     PostRepository postRepository;
+    @Autowired
+    UserUtils userUtils;
 
-    public PostResDTO createPost(UserModel user, PostReqDTO request) {
+    public PostResDTO createPost(String mail, PostReqDTO request) {
+        UserModel user = userUtils.getUserByMail(mail);
         PostModel post = new PostModel(
                 request.title(),
                 request.description(),
@@ -41,7 +45,8 @@ public class PostService {
         return posts.stream().map(this::postResDTOBuilder).toList();
     }
 
-    public List<PostResDTO> getUserPosts(UserModel user, int page, int size) {
+    public List<PostResDTO> getUserPosts(String mail, int page, int size) {
+        UserModel user = userUtils.getUserByMail(mail);
         Pageable pageable = PageRequest.of(page, size);
         Page<PostModel> posts = postRepository.findByUser(user, pageable);
         return posts.stream().map(this::postResDTOBuilder).toList();
@@ -99,7 +104,7 @@ public class PostService {
     }
 
     private void postBelongsToUser(PostModel post, UserModel user) {
-        if (post.getUser() != user)
+        if (!post.getUser().getMail().equals(user.getMail()))
             throw new RuntimeException("Post não pertence a este usuário");
     }
 }

@@ -23,7 +23,7 @@ public class PostController {
             @AuthenticationPrincipal UserModel user,
             @Valid @RequestBody PostReqDTO request
     ) {
-        return postService.createPost(user, request);
+        return postService.createPost(user.getMail(), request);
     }
 
     @GetMapping("/feed")
@@ -40,7 +40,7 @@ public class PostController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        return postService.getUserPosts(user, page, size);
+        return postService.getUserPosts(user.getMail(), page, size);
     }
 
     @PatchMapping("/like/{id}")
