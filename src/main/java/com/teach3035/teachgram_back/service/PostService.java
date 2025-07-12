@@ -3,6 +3,7 @@ package com.teach3035.teachgram_back.service;
 import com.teach3035.teachgram_back.dto.req.PostReqDTO;
 import com.teach3035.teachgram_back.dto.req.UpdatePostReqDTO;
 import com.teach3035.teachgram_back.dto.res.PostResDTO;
+import com.teach3035.teachgram_back.exception.custom.PostNotBelongsToUserException;
 import com.teach3035.teachgram_back.exception.custom.ResourceNotFoundException;
 import com.teach3035.teachgram_back.model.PostModel;
 import com.teach3035.teachgram_back.model.UserModel;
@@ -105,6 +106,6 @@ public class PostService {
 
     private void postBelongsToUser(PostModel post, UserModel user) {
         if (!post.getUser().getMail().equals(user.getMail()))
-            throw new RuntimeException("Post não pertence a este usuário");
+            throw new PostNotBelongsToUserException("Post não pertence a este usuário");
     }
 }
