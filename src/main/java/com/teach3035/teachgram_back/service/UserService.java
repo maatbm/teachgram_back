@@ -65,8 +65,8 @@ public class UserService {
         return this.pageUserResDTOBuilder(users);
     }
 
-    public UserResDTO getUserProfile(String mail) {
-        UserModel user = userUtils.getUserByMail(mail);
+    public UserResDTO getUserProfile(Long id) {
+        UserModel user = userUtils.getUserById(id);
         return this.userResDTOBuilder(user);
     }
 

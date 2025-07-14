@@ -39,9 +39,9 @@ public class UserController {
         return userService.getAllNonDeletedUsers(page, size);
     }
 
-    @GetMapping
-    public UserResDTO getUserProfile(@AuthenticationPrincipal UserModel user) {
-        return userService.getUserProfile(user.getMail());
+    @GetMapping("/profile/{id}")
+    public UserResDTO getUserProfile(@PathVariable(value = "id") Long id) {
+        return userService.getUserProfile(id);
     }
 
     @PatchMapping

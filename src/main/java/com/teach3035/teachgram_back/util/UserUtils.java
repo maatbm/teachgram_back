@@ -16,4 +16,10 @@ public class UserUtils {
                 .findByMail(mail)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
+
+    public UserModel getUserById(Long id) {
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
 }

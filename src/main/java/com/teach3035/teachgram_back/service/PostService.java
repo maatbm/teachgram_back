@@ -51,7 +51,7 @@ public class PostService {
     }
 
     public PagePostResDTO getUserPosts(Long id, int page, int size) {
-        UserModel user = this.getUserById(id);
+        UserModel user = userUtils.getUserById(id);
         Pageable pageable = PageRequest.of(page, size);
         Page<PostModel> posts = postRepository.findByUser(user, pageable);
         return this.pagePostResDTOBuilder(posts);
@@ -120,11 +120,5 @@ public class PostService {
                 posts.getTotalElements(),
                 posts.getTotalPages()
         );
-    }
-
-    private UserModel getUserById(Long id) {
-        return userRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }
