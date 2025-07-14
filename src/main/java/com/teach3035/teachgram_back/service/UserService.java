@@ -55,7 +55,8 @@ public class UserService {
     public JwtTokenResDTO signin(SigninReqDTO request) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.mail(), request.password());
         authenticationManager.authenticate(token);
-        return tokenService.generateToken(request.mail());
+        UserModel user = userUtils.getUserByMail(request.mail());
+        return tokenService.generateToken(request.mail(), user.getId());
     }
 
     public PageUserResDTO getAllNonDeletedUsers(int page, int size) {
