@@ -42,11 +42,8 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
-        Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getFieldErrors().forEach(error -> {
-            errors.put(error.getField(), error.getDefaultMessage());
-        });
-        return errors;
+    public ExceptionResDTO methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        String errorMessage = e.getBindingResult().getFieldErrors().getFirst().getDefaultMessage();
+        return new ExceptionResDTO(HttpStatus.BAD_REQUEST.name(), errorMessage);
     }
 }
