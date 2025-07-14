@@ -9,6 +9,7 @@ import com.teach3035.teachgram_back.exception.custom.ResourceNotFoundException;
 import com.teach3035.teachgram_back.model.PostModel;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.PostRepository;
+import com.teach3035.teachgram_back.repository.UserRepository;
 import com.teach3035.teachgram_back.util.UserUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class PostService {
     PostRepository postRepository;
     @Autowired
     UserUtils userUtils;
+    @Autowired
+    UserRepository userRepository;
 
     public PostResDTO createPost(String mail, PostReqDTO request) {
         UserModel user = userUtils.getUserByMail(mail);
@@ -47,8 +50,8 @@ public class PostService {
         return this.pagePostResDTOBuilder(posts);
     }
 
-    public PagePostResDTO getUserPosts(String mail, int page, int size) {
-        UserModel user = userUtils.getUserByMail(mail);
+    public PagePostResDTO getUserPosts(Long id, int page, int size) {
+        UserModel user = this.getUserById(id);
         Pageable pageable = PageRequest.of(page, size);
         Page<PostModel> posts = postRepository.findByUser(user, pageable);
         return this.pagePostResDTOBuilder(posts);
@@ -117,5 +120,11 @@ public class PostService {
                 posts.getTotalElements(),
                 posts.getTotalPages()
         );
+    }
+
+    private UserModel getUserById(Long id) {
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }

@@ -33,13 +33,13 @@ public class PostController {
         return postService.getFeedPosts(page, size);
     }
 
-    @GetMapping("/profile")
+    @GetMapping("/profile/{id}")
     public PagePostResDTO getUserPosts(
-            @AuthenticationPrincipal UserModel user,
+            @PathVariable(value = "id") Long id,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        return postService.getUserPosts(user.getMail(), page, size);
+        return postService.getUserPosts(id, page, size);
     }
 
     @PatchMapping("/like/{id}")
