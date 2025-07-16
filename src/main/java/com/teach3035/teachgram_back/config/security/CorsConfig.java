@@ -8,24 +8,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig {
-    @Value("${security.cors.routes}")
-    private String routes;
-    @Value("${security.cors.allowed-methods}")
-    private String allowedMethods;
     @Value("${security.cors.allowed-origins}")
     private String allowedOrigins;
-    @Value("${security.cors.allowed-headers}")
-    private String allowedheaders;
 
     @Bean
     public WebMvcConfigurer configurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping(routes)
-                        .allowedMethods(allowedMethods)
+                registry.addMapping("/**")
+                        .allowedMethods("POST", "GET", "PATCH", "DELETE")
                         .allowedOrigins(allowedOrigins)
-                        .allowedHeaders(allowedheaders);
+                        .allowedHeaders("Content-Type", "Authorization");
             }
         };
     }
