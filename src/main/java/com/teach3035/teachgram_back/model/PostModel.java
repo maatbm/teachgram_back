@@ -43,7 +43,7 @@ public class PostModel {
     @NonNull
     private Boolean isPrivate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @NonNull
     private UserModel user;

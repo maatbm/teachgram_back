@@ -53,7 +53,7 @@ public class PostService {
     public PagePostResDTO getUserPosts(Long id, int page, int size) {
         UserModel user = userUtils.getUserById(id);
         Pageable pageable = PageRequest.of(page, size);
-        Page<PostModel> posts = postRepository.findByUser(user, pageable);
+        Page<PostModel> posts = postRepository.findByUserOrderByCreatedAtDesc(user, pageable);
         return this.pagePostResDTOBuilder(posts);
     }
 
@@ -88,6 +88,7 @@ public class PostService {
                 post.getPhotoLink(),
                 post.getVideoLink(),
                 post.getIsPrivate(),
+                userUtils.userResDTOBuilder(post.getUser()),
                 post.getLikes(),
                 post.getCreatedAt()
         );

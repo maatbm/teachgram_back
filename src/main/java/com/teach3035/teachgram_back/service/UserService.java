@@ -50,7 +50,7 @@ public class UserService {
                 request.profileLink()
         );
         userRepository.save(newUser);
-        return this.userResDTOBuilder(newUser);
+        return userUtils.userResDTOBuilder(newUser);
     }
 
     public JwtTokenResDTO signin(SigninReqDTO request) {
@@ -67,12 +67,12 @@ public class UserService {
 
     public UserResDTO getUserProfileById(Long id) {
         UserModel user = userUtils.getUserById(id);
-        return this.userResDTOBuilder(user);
+        return userUtils.userResDTOBuilder(user);
     }
 
     public UserResDTO getAuthenticatedUserProfile(String mail) {
         UserModel user = userUtils.getUserByMail(mail);
-        return this.userResDTOBuilder(user);
+        return userUtils.userResDTOBuilder(user);
     }
 
     public UserResDTO updateUser(String mail, UpdateUserReqDTO request) {
@@ -80,7 +80,7 @@ public class UserService {
         this.validateUniqueFields(request.mail(), request.username(), request.phone(), oldUser.getId());
         UserModel updatedUser = this.updateUserFields(request, oldUser);
         userRepository.save(updatedUser);
-        return this.userResDTOBuilder(updatedUser);
+        return userUtils.userResDTOBuilder(updatedUser);
     }
 
     @Transactional
@@ -106,18 +106,6 @@ public class UserService {
             throw new DuplicateFieldException("Phone already exists");
     }
 
-    private UserResDTO userResDTOBuilder(UserModel user) {
-        return new UserResDTO(
-                user.getId(),
-                user.getName(),
-                user.getMail(),
-                user.getUsernameField(),
-                user.getDescription(),
-                user.getPhone(),
-                user.getProfileLink()
-        );
-    }
-
     private UserModel updateUserFields(UpdateUserReqDTO request, UserModel user) {
         Optional.ofNullable(request.name()).ifPresent(user::setName);
         Optional.ofNullable(request.mail()).ifPresent(user::setMail);
@@ -130,7 +118,7 @@ public class UserService {
     }
 
     private PageUserResDTO pageUserResDTOBuilder(Page<UserModel> users) {
-        List<UserResDTO> listUsers = users.stream().map(this::userResDTOBuilder).toList();
+        List<UserResDTO> listUsers = users.stream().map(userUtils::userResDTOBuilder).toList();
         return new PageUserResDTO(
                 listUsers,
                 users.getTotalElements(),

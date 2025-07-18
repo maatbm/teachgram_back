@@ -1,5 +1,6 @@
 package com.teach3035.teachgram_back.util;
 
+import com.teach3035.teachgram_back.dto.res.UserResDTO;
 import com.teach3035.teachgram_back.exception.custom.ResourceNotFoundException;
 import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
@@ -21,5 +22,17 @@ public class UserUtils {
         return userRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    public UserResDTO userResDTOBuilder(UserModel user) {
+        return new UserResDTO(
+                user.getId(),
+                user.getName(),
+                user.getMail(),
+                user.getUsernameField(),
+                user.getDescription(),
+                user.getPhone(),
+                user.getProfileLink()
+        );
     }
 }
