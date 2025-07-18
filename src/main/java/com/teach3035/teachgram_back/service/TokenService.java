@@ -20,13 +20,12 @@ public class TokenService {
     @Value("${security.jwt.token-prefix}")
     private String tokenPrefix;
 
-    public JwtTokenResDTO generateToken(String email, Long userId) {
+    public JwtTokenResDTO generateToken(String email) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         Instant expirantionDate = this.getExpirationDate();
         String token = JWT.create()
                 .withIssuer(issuer)
                 .withSubject(email)
-                .withClaim("userId", userId)
                 .withExpiresAt(expirantionDate)
                 .sign(algorithm);
         return new JwtTokenResDTO(tokenPrefix + " ", token, expirantionDate.toEpochMilli());
