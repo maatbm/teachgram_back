@@ -5,6 +5,7 @@ import java.util.List;
 public record PagePostResDTO(
         List<PostResDTO> posts,
         Long totalItems,
-        int totalPages
+        int totalPages,
+        boolean hasmore
 ) {
 }

@@ -118,7 +118,8 @@ public class PostService {
         return new PagePostResDTO(
                 listPosts,
                 posts.getTotalElements(),
-                posts.getTotalPages()
+                posts.getTotalPages(),
+                posts.hasNext()
         );
     }
 }
