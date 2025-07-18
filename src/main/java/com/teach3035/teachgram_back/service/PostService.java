@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,15 +46,15 @@ public class PostService {
     }
 
     public PagePostResDTO getFeedPosts(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<PostModel> posts = postRepository.getFeedPosts(pageable);
         return this.pagePostResDTOBuilder(posts);
     }
 
     public PagePostResDTO getUserPosts(Long id, int page, int size) {
         UserModel user = userUtils.getUserById(id);
-        Pageable pageable = PageRequest.of(page, size);
-        Page<PostModel> posts = postRepository.findByUserOrderByCreatedAtDesc(user, pageable);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<PostModel> posts = postRepository.findByUser(user, pageable);
         return this.pagePostResDTOBuilder(posts);
     }
 

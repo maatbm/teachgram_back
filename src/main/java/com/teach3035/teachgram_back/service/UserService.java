@@ -61,7 +61,7 @@ public class UserService {
 
     public PageUserResDTO getAllNonDeletedUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<UserModel> users = userRepository.getAllNonDeleted(pageable);
+        Page<UserModel> users = userRepository.findAll(pageable);
         return this.pageUserResDTOBuilder(users);
     }
 

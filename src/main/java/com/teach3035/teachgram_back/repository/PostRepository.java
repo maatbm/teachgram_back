@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<PostModel, Long> {
-    @Query("SELECT p FROM PostModel p WHERE p.isPrivate = false ORDER BY p.createdAt DESC")
+    @Query("SELECT p FROM PostModel p WHERE p.isPrivate = false")
     Page<PostModel> getFeedPosts(Pageable pageable);
 
-    Page<PostModel> findByUserOrderByCreatedAtDesc(UserModel user, Pageable pageable);
+    Page<PostModel> findByUser(UserModel user, Pageable pageable);
 }

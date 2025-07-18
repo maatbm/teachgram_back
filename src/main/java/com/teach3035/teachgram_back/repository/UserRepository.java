@@ -32,8 +32,5 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     @Query(value = "SELECT EXISTS(SELECT 1 FROM users WHERE phone = :phone AND id != :id)", nativeQuery = true)
     boolean existsByPhoneAndIdNot(@Param("phone") String phone, @Param("id") Long id);
 
-    @Query(value = "SELECT * FROM users WHERE deleted = false", nativeQuery = true)
-    Page<UserModel> getAllNonDeleted(Pageable pageable);
-
     void deleteByMail(String mail);
 }
