@@ -11,6 +11,7 @@ import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
 import com.teach3035.teachgram_back.util.UserUtils;
 import jakarta.transaction.Transactional;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -64,8 +65,13 @@ public class UserService {
         return this.pageUserResDTOBuilder(users);
     }
 
-    public UserResDTO getUserProfile(Long id) {
+    public UserResDTO getUserProfileById(Long id) {
         UserModel user = userUtils.getUserById(id);
+        return this.userResDTOBuilder(user);
+    }
+
+    public UserResDTO getAuthenticatedUserProfile(String mail) {
+        UserModel user = userUtils.getUserByMail(mail);
         return this.userResDTOBuilder(user);
     }
 
