@@ -32,7 +32,9 @@ public class UserUtils {
                 user.getUsernameField(),
                 user.getDescription(),
                 user.getPhone(),
-                user.getProfileLink()
+                user.getProfileLink(),
+                user.getPosts().size(),
+                user.getFriends().size()
         );
     }
 }

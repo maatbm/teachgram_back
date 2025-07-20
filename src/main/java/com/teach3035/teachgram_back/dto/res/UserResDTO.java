@@ -7,6 +7,8 @@ public record UserResDTO(
         String username,
         String description,
         String phone,
-        String profileLink
+        String profileLink,
+        Integer totalPosts,
+        Integer totalFriends
 ) {
 }

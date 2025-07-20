@@ -58,11 +58,11 @@ public class UserModel implements UserDetails {
     @NonNull
     private String profileLink;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @Setter(AccessLevel.NONE)
     private List<PostModel> posts = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "friendships",
             joinColumns = @JoinColumn(name = "user_id_1"),
