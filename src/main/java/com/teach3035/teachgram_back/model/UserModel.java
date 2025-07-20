@@ -1,5 +1,6 @@
 package com.teach3035.teachgram_back.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -60,6 +61,15 @@ public class UserModel implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     private List<PostModel> posts = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "friendships",
+            joinColumns = @JoinColumn(name = "user_id_1"),
+            inverseJoinColumns = @JoinColumn(name = "user_id_2")
+    )
+    @JsonIgnore
+    private List<UserModel> friends = new ArrayList<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
