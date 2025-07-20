@@ -36,11 +36,11 @@ public class PostService {
         PostModel post = new PostModel(
                 request.title(),
                 request.description(),
-                request.photoLink(),
-                request.videoLink(),
                 request.isPrivate(),
                 user
         );
+        post.setPhotoLink(request.photoLink());
+        post.setVideoLink(request.videoLink());
         postRepository.save(post);
         return this.postResDTOBuilder(post);
     }
