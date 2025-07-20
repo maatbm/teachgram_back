@@ -24,7 +24,7 @@ public class UserUtils {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
-    public UserResDTO userResDTOBuilder(UserModel user) {
+    public UserResDTO userResDTOBuilder(UserModel user, UserModel authenticatedUser) {
         return new UserResDTO(
                 user.getId(),
                 user.getName(),
@@ -34,7 +34,23 @@ public class UserUtils {
                 user.getPhone(),
                 user.getProfileLink(),
                 user.getPosts().size(),
-                user.getFriends().size()
+                user.getFriends().size(),
+                authenticatedUser.getFriends().contains(user)
+        );
+    }
+
+    public UserResDTO userResDTOBuilder(UserModel user) {
+        return new UserResDTO(
+                user.getId(),
+                user.getName(),
+                user.getMail(),
+                user.getUsernameField(),
+                user.getDescription(),
+                user.getPhone(),
+                user.getProfileLink(),
+                user.getPosts() != null ? user.getPosts().size() : 0,
+                user.getFriends() != null ? user.getFriends().size() : 0,
+                false
         );
     }
 }

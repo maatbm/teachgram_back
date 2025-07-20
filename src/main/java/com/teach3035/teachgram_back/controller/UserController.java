@@ -31,19 +31,23 @@ public class UserController {
 
     @GetMapping("/all")
     public PageUserResDTO getAllNonDeletedUsers(
+            @AuthenticationPrincipal UserModel user,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        return userService.getAllNonDeletedUsers(page, size);
+        return userService.getAllNonDeletedUsers(user.getMail(), page, size);
     }
 
     @GetMapping("/profile/{id}")
-    public UserResDTO getUserProfile(@PathVariable(value = "id") Long id) {
-        return userService.getUserProfileById(id);
+    public UserResDTO getUserProfile(
+            @AuthenticationPrincipal UserModel user,
+            @PathVariable(value = "id") Long id
+    ) {
+        return userService.getUserProfileById(user.getMail(), id);
     }
 
     @GetMapping("/profile")
-    public UserResDTO getAuthenticatedUserProfile(@AuthenticationPrincipal UserModel user){
+    public UserResDTO getAuthenticatedUserProfile(@AuthenticationPrincipal UserModel user) {
         return userService.getAuthenticatedUserProfile(user.getMail());
     }
 

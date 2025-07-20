@@ -9,6 +9,7 @@ public record UserResDTO(
         String phone,
         String profileLink,
         Integer totalPosts,
-        Integer totalFriends
+        Integer totalFriends,
+        boolean isFriend
 ) {
 }

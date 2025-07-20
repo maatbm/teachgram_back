@@ -11,7 +11,6 @@ import com.teach3035.teachgram_back.model.UserModel;
 import com.teach3035.teachgram_back.repository.UserRepository;
 import com.teach3035.teachgram_back.util.UserUtils;
 import jakarta.transaction.Transactional;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -59,15 +59,17 @@ public class UserService {
         return tokenService.generateToken(request.mail());
     }
 
-    public PageUserResDTO getAllNonDeletedUsers(int page, int size) {
+    public PageUserResDTO getAllNonDeletedUsers(String mail, int page, int size) {
+        UserModel authenticatedUser = userUtils.getUserByMail(mail);
         Pageable pageable = PageRequest.of(page, size);
         Page<UserModel> users = userRepository.findAll(pageable);
-        return this.pageUserResDTOBuilder(users);
+        return this.pageUserResDTOBuilder(users, authenticatedUser);
     }
 
-    public UserResDTO getUserProfileById(Long id) {
-        UserModel user = userUtils.getUserById(id);
-        return userUtils.userResDTOBuilder(user);
+    public UserResDTO getUserProfileById(String mail, Long id) {
+        UserModel otherUser = userUtils.getUserById(id);
+        UserModel authenticatedUser = userUtils.getUserByMail(mail);
+        return userUtils.userResDTOBuilder(otherUser, authenticatedUser);
     }
 
     public UserResDTO getAuthenticatedUserProfile(String mail) {
@@ -92,7 +94,7 @@ public class UserService {
         UserModel user = userUtils.getUserByMail(mail);
         Pageable pageable = PageRequest.of(page, size);
         Page<UserModel> friends = userRepository.findFriendsByUserId(user.getId(), pageable);
-        return this.pageUserResDTOBuilder(friends);
+        return this.pageUserResDTOBuilder(friends, user);
     }
 
     private void validateUniqueFields(String mail, String username, String phone) {
@@ -124,8 +126,12 @@ public class UserService {
         return user;
     }
 
-    private PageUserResDTO pageUserResDTOBuilder(Page<UserModel> users) {
-        List<UserResDTO> listUsers = users.stream().map(userUtils::userResDTOBuilder).toList();
+    private PageUserResDTO pageUserResDTOBuilder(Page<UserModel> users, UserModel authenticatedUser) {
+        List<UserResDTO> listUsers = users
+                .stream()
+                .filter(Objects::nonNull)
+                .map(user -> userUtils.userResDTOBuilder(user, authenticatedUser))
+                .toList();
         return new PageUserResDTO(
                 listUsers,
                 users.getTotalElements(),
