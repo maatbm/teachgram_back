@@ -33,4 +33,7 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     boolean existsByPhoneAndIdNot(@Param("phone") String phone, @Param("id") Long id);
 
     void deleteByMail(String mail);
+
+    @Query("SELECT f FROM UserModel u JOIN u.friends f WHERE u.id = :userId")
+    Page<UserModel> findFriendsByUserId(@Param("userId") Long userId, Pageable pageable);
 }

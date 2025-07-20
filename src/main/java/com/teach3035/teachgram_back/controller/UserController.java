@@ -59,4 +59,13 @@ public class UserController {
     public void deleteUser(@AuthenticationPrincipal UserModel user) {
         userService.deleteUser(user.getMail());
     }
+
+    @GetMapping("/friends")
+    public PageUserResDTO getFriends(
+            @AuthenticationPrincipal UserModel user,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        return userService.getUserFriends(user.getMail(), page, size);
+    }
 }

@@ -88,6 +88,13 @@ public class UserService {
         userRepository.deleteByMail(mail);
     }
 
+    public PageUserResDTO getUserFriends(String mail, int page, int size) {
+        UserModel user = userUtils.getUserByMail(mail);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<UserModel> friends = userRepository.findFriendsByUserId(user.getId(), pageable);
+        return this.pageUserResDTOBuilder(friends);
+    }
+
     private void validateUniqueFields(String mail, String username, String phone) {
         if (userRepository.existsByMailIncludingDeleted(mail))
             throw new DuplicateFieldException("Email already exists");
