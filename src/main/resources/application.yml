@@ -21,7 +21,4 @@ security:
     token-prefix: ${JWT_TOKEN_PREFIX}
 
   cors:
-    routes: ${CORS_ROUTES}
-    allowed-methods: ${CORS_ALLOWED_METHODS}
     allowed-origins: ${CORS_ALLOWED_ORIGINS}
-    allowed-headers: ${CORS_ALLOWED_ORIGINS}
