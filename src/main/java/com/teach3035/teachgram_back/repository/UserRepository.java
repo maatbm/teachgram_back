@@ -23,13 +23,10 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     @Query(value = "SELECT EXISTS(SELECT 1 FROM users WHERE phone = :phone)", nativeQuery = true)
     boolean existsByPhoneIncludingDeleted(@Param("phone") String phone);
 
-    @Query(value = "SELECT EXISTS(SELECT 1 FROM users WHERE mail = :mail AND id != :id)", nativeQuery = true)
     boolean existsByMailAndIdNot(@Param("mail") String mail, @Param("id") Long id);
 
-    @Query(value = "SELECT EXISTS(SELECT 1 FROM users WHERE username = :username AND id != :id)", nativeQuery = true)
     boolean existsByUsernameFieldAndIdNot(@Param("username") String username, @Param("id") Long id);
 
-    @Query(value = "SELECT EXISTS(SELECT 1 FROM users WHERE phone = :phone AND id != :id)", nativeQuery = true)
     boolean existsByPhoneAndIdNot(@Param("phone") String phone, @Param("id") Long id);
 
     void deleteByMail(String mail);

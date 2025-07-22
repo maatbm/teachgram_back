@@ -47,7 +47,7 @@ public class PostService {
 
     public PagePostResDTO getFeedPosts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<PostModel> posts = postRepository.getFeedPosts(pageable);
+        Page<PostModel> posts = postRepository.findByIsPrivateFalse(pageable);
         return this.pagePostResDTOBuilder(posts);
     }
 
